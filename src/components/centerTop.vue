@@ -1,9 +1,9 @@
 <template>
   <div class="panel">
     <ul class="panel-top">
-      <li>125811</li>
+      <li>{{ centerTopOneCount }}</li>
       <li></li>
-      <li>104563</li>
+      <li>{{ centerTopTwoCount }}</li>
     </ul>
     <ul class="panel-bottom">
       <li>前端需求人数</li>
@@ -12,7 +12,16 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from 'vue';
+
+const centerTopOneCount = ref(Math.floor(Math.random() * 10000));
+const centerTopTwoCount = ref(Math.floor(Math.random() * 10000));
+setInterval(() => {
+  centerTopOneCount.value += Math.floor(Math.random() * 50 - 25);
+  centerTopTwoCount.value += Math.floor(Math.random() * 50 - 25);
+}, 1000);
+</script>
 
 <style scoped>
 .panel-top {
@@ -36,10 +45,10 @@
   border-left: 0.0651vw solid #ccc;
 }
 .panel-bottom {
-  margin-top: .651vw;
+  margin-top: 0.651vw;
   display: flex;
   justify-content: space-around;
-  font-size: .7813vw;
+  font-size: 0.7813vw;
   font-family: electronicFont;
 }
 </style>
