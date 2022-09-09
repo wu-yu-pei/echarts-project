@@ -35,14 +35,14 @@
           <div ref="rightThere"></div>
         </baseShape>
       </div>
-      <div class="right-one">
-        <baseShape>
-          <div ref="rightOne"></div>
-        </baseShape>
-      </div>
       <div class="right-two">
         <baseShape>
           <div ref="rightTwo"></div>
+        </baseShape>
+      </div>
+      <div class="right-one">
+        <baseShape>
+          <div ref="rightOne"></div>
         </baseShape>
       </div>
     </div>
@@ -91,6 +91,8 @@ const rightThere = ref(null);
 
 // leftOneData
 const LeftOneData = $ref([400, 500, 190, 122, 79, 300, 100]);
+const LeftTwoData = $ref([820, 932, 901, 934, 1290, 1330, 1320, 400, 200, 2000, 800, 1300]);
+const RightTwoData = $ref([140, 232, 101, 264, 90, 340, 250]);
 
 onMounted(() => {
   // left-one
@@ -172,21 +174,21 @@ onMounted(() => {
           borderRadius: 5,
         },
       },
-      {
-        name: '2020',
-        data: [100, 1100, 500, 1000, 900, 400, 200],
-        type: 'bar',
-        showBackground: true,
-        // 背景颜色
-        backgroundStyle: {
-          color: 'rgba(180, 180, 180, 0.0)',
-        },
-        barWidth: '30%',
-        // 圆角
-        itemStyle: {
-          borderRadius: 5,
-        },
-      },
+      // {
+      //   name: '2020',
+      //   data: [100, 1100, 500, 1000, 900, 400, 200],
+      //   type: 'bar',
+      //   showBackground: true,
+      //   // 背景颜色
+      //   backgroundStyle: {
+      //     color: 'rgba(180, 180, 180, 0.0)',
+      //   },
+      //   barWidth: '30%',
+      //   // 圆角
+      //   itemStyle: {
+      //     borderRadius: 5,
+      //   },
+      // },
     ],
   };
   leftOneEchartsOptions && leftOneEcharts.setOption(leftOneEchartsOptions);
@@ -196,6 +198,7 @@ onMounted(() => {
     }
     leftOneEcharts.setOption(leftOneEchartsOptions);
   }, 2000);
+
   // left-two
   const leftTwoEcharts = echarts.init(leftTwo.value);
   const leftTwoEchartsOptions = {
@@ -239,20 +242,25 @@ onMounted(() => {
     series: [
       {
         name: '新增粉丝',
-        data: [820, 932, 901, 934, 1290, 1330, 1320, 400, 200, 2000, 800, 1300],
+        data: LeftTwoData,
         type: 'line',
         smooth: true,
       },
-      {
-        name: '新增游客',
-        data: [1820, 2932, 9101, 9034, 5290, 2330, 320, 4000, 1200, 200, 1800, 1300],
-        type: 'line',
-        smooth: true,
-      },
+      // {
+      //   name: '新增游客',
+      //   data: [1820, 2932, 9101, 9034, 5290, 2330, 320, 4000, 1200, 200, 1800, 1300],
+      //   type: 'line',
+      //   smooth: true,
+      // },
     ],
   };
   leftTwoEchartsOptions && leftTwoEcharts.setOption(leftTwoEchartsOptions);
-
+  setInterval(() => {
+    for (let i = 0; i < LeftTwoData.length; i++) {
+      LeftTwoData[i] = getRandomInt(100, 5000);
+    }
+    leftTwoEcharts.setOption(leftTwoEchartsOptions);
+  }, 1500);
   // left-there
   const leftThereEcharts = echarts.init(leftThere.value);
   const leftThereEchartsOptions = {
@@ -423,7 +431,7 @@ onMounted(() => {
       {
         type: 'category',
         boundaryGap: false,
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
       },
     ],
     yAxis: [
@@ -457,39 +465,44 @@ onMounted(() => {
         emphasis: {
           focus: 'series',
         },
-        data: [140, 232, 101, 264, 90, 340, 250],
+        data: RightTwoData,
       },
-      {
-        name: '转发量',
-        type: 'line',
-        stack: 'Total',
-        smooth: true,
-        lineStyle: {
-          width: 0,
-        },
-        showSymbol: false,
-        areaStyle: {
-          opacity: 0.8,
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: 'rgb(0, 221, 255)',
-            },
-            {
-              offset: 1,
-              color: 'rgb(77, 119, 255)',
-            },
-          ]),
-        },
-        emphasis: {
-          focus: 'series',
-        },
-        data: [120, 282, 111, 234, 220, 340, 310],
-      },
+      // {
+      //   name: '转发量',
+      //   type: 'line',
+      //   stack: 'Total',
+      //   smooth: true,
+      //   lineStyle: {
+      //     width: 0,
+      //   },
+      //   showSymbol: false,
+      //   areaStyle: {
+      //     opacity: 0.8,
+      //     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+      //       {
+      //         offset: 0,
+      //         color: 'rgb(0, 221, 255)',
+      //       },
+      //       {
+      //         offset: 1,
+      //         color: 'rgb(77, 119, 255)',
+      //       },
+      //     ]),
+      //   },
+      //   emphasis: {
+      //     focus: 'series',
+      //   },
+      //   data: [120, 282, 111, 234, 220, 340, 310],
+      // },
     ],
   };
   rightTwoEchartsOptions && rightTwoEcharts.setOption(rightTwoEchartsOptions);
-
+  setInterval(() => {
+    for (let i = 0; i < RightTwoData.length; i++) {
+      RightTwoData[i] = getRandomInt(100, 5000);
+    }
+    rightTwoEcharts.setOption(rightTwoEchartsOptions);
+  }, 1500);
   // right-three
   const rightThreeEcharts = echarts.init(rightThere.value);
   const data = [
@@ -501,7 +514,7 @@ onMounted(() => {
       id: '-1',
     },
   ];
-  const edges = [];
+  let edges = [];
   const rightThreeEchartsOptions = {
     title: {
       text: '关系图-学员关系',
@@ -529,6 +542,9 @@ onMounted(() => {
     ],
   };
   setInterval(function () {
+    if (data.length > 50) {
+      return;
+    }
     data.push({
       id: data.length + '',
     });
