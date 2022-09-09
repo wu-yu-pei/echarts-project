@@ -30,6 +30,11 @@
       </div>
     </div>
     <div class="right">
+      <div class="right-there">
+        <baseShape>
+          <div ref="rightThere"></div>
+        </baseShape>
+      </div>
       <div class="right-one">
         <baseShape>
           <div ref="rightOne"></div>
@@ -40,11 +45,6 @@
           <div ref="rightTwo"></div>
         </baseShape>
       </div>
-      <div class="right-there">
-        <baseShape>
-          <div ref="rightThere"></div>
-        </baseShape>
-      </div>
     </div>
   </section>
 </template>
@@ -52,13 +52,21 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import * as echarts from 'echarts/core';
-import { GridComponent, TooltipComponent, TitleComponent, LegendComponent } from 'echarts/components';
-import { BarChart, LineChart, PieChart } from 'echarts/charts';
+import {
+  GridComponent,
+  TooltipComponent,
+  TitleComponent,
+  LegendComponent,
+  ToolboxComponent,
+} from 'echarts/components';
+import { BarChart, LineChart, PieChart, GraphChart } from 'echarts/charts';
 import { CanvasRenderer } from 'echarts/renderers';
 
 import baseShape from './components/baseShape.vue';
 import CenterTop from './components/centerTop.vue';
 import CenterContent from './components/centerContent.vue';
+
+import { getRandomInt } from './utils/index';
 
 echarts.use([
   GridComponent,
@@ -69,14 +77,20 @@ echarts.use([
   TooltipComponent,
   TitleComponent,
   LegendComponent,
+  ToolboxComponent,
+  GraphChart,
 ]);
 
+// DomEl
 const leftOne = ref(null);
 const leftTwo = ref(null);
 const leftThere = ref(null);
 const rightOne = ref(null);
 const rightTwo = ref(null);
 const rightThere = ref(null);
+
+// leftOneData
+const LeftOneData = $ref([400, 500, 190, 122, 79, 300, 100]);
 
 onMounted(() => {
   // left-one
@@ -145,7 +159,7 @@ onMounted(() => {
     series: [
       {
         name: '2019',
-        data: [200, 300, 300, 900, 1500, 1200, 600],
+        data: LeftOneData,
         type: 'bar',
         showBackground: true,
         // 背景颜色
@@ -176,7 +190,12 @@ onMounted(() => {
     ],
   };
   leftOneEchartsOptions && leftOneEcharts.setOption(leftOneEchartsOptions);
-
+  setInterval(() => {
+    for (let i = 0; i < LeftOneData.length; i++) {
+      LeftOneData[i] = getRandomInt(100, 5000);
+    }
+    leftOneEcharts.setOption(leftOneEchartsOptions);
+  }, 2000);
   // left-two
   const leftTwoEcharts = echarts.init(leftTwo.value);
   const leftTwoEchartsOptions = {
@@ -470,12 +489,75 @@ onMounted(() => {
     ],
   };
   rightTwoEchartsOptions && rightTwoEcharts.setOption(rightTwoEchartsOptions);
+
+  // right-three
+  const rightThreeEcharts = echarts.init(rightThere.value);
+  const data = [
+    {
+      fixed: true,
+      x: rightThreeEcharts.getWidth() / 2,
+      y: rightThreeEcharts.getHeight() / 2,
+      symbolSize: 20,
+      id: '-1',
+    },
+  ];
+  const edges = [];
+  const rightThreeEchartsOptions = {
+    title: {
+      text: '关系图-学员关系',
+      textStyle: {
+        color: '#fff',
+        fontSize: 14,
+      },
+      top: 10,
+      left: 10,
+    },
+    series: [
+      {
+        type: 'graph',
+        layout: 'force',
+        animation: false,
+        data: data,
+        force: {
+          // initLayout: 'circular'
+          // gravity: 0
+          repulsion: 100,
+          edgeLength: 5,
+        },
+        edges: edges,
+      },
+    ],
+  };
+  setInterval(function () {
+    data.push({
+      id: data.length + '',
+    });
+    var source = Math.round((data.length - 1) * Math.random());
+    var target = Math.round((data.length - 1) * Math.random());
+    if (source !== target) {
+      edges.push({
+        source: source,
+        target: target,
+      });
+    }
+    rightThreeEcharts.setOption({
+      series: [
+        {
+          roam: true,
+          data: data,
+          edges: edges,
+        },
+      ],
+    });
+  }, 200);
+  rightThreeEchartsOptions && rightThreeEcharts.setOption(rightThreeEchartsOptions);
   window.addEventListener('resize', () => {
     leftOneEcharts.resize();
     leftTwoEcharts.resize();
     leftThereEcharts.resize();
     rightOneEcharts.resize();
     rightTwoEcharts.resize();
+    rightThreeEcharts.resize();
   });
 });
 </script>
