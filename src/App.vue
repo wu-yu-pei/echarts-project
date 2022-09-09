@@ -74,6 +74,9 @@ echarts.use([
 const leftOne = ref(null);
 const leftTwo = ref(null);
 const leftThere = ref(null);
+const rightOne = ref(null);
+const rightTwo = ref(null);
+const rightThere = ref(null);
 
 onMounted(() => {
   // left-one
@@ -173,6 +176,7 @@ onMounted(() => {
     ],
   };
   leftOneEchartsOptions && leftOneEcharts.setOption(leftOneEchartsOptions);
+
   // left-two
   const leftTwoEcharts = echarts.init(leftTwo.value);
   const leftTwoEchartsOptions = {
@@ -229,6 +233,7 @@ onMounted(() => {
     ],
   };
   leftTwoEchartsOptions && leftTwoEcharts.setOption(leftTwoEchartsOptions);
+
   // left-there
   const leftThereEcharts = echarts.init(leftThere.value);
   const leftThereEchartsOptions = {
@@ -251,8 +256,9 @@ onMounted(() => {
     },
     legend: {
       bottom: '0',
-      right: '0',
-      left: '0',
+      align: 'auto',
+      itemWidth: 10,
+      itemHeight: 10,
       textStyle: {
         color: '#fff',
         fontSize: '12',
@@ -289,9 +295,187 @@ onMounted(() => {
     ],
   };
   leftThereEchartsOptions && leftThereEcharts.setOption(leftThereEchartsOptions);
+
+  // right-one
+  const rightOneEcharts = echarts.init(rightOne.value);
+  const rightOneEchartsOptions = {
+    title: {
+      text: '柱状图-技能掌握',
+      textStyle: {
+        color: '#fff',
+        fontSize: 14,
+      },
+      top: 10,
+      left: 10,
+    },
+    tooltip: {
+      trigger: 'none',
+      axisPointer: {
+        type: 'shadow',
+      },
+    },
+    grid: {
+      top: '20%',
+      left: '20%',
+      bottom: '15%',
+    },
+    xAxis: {
+      show: false,
+      type: 'value',
+      splitLine: {
+        show: false,
+      },
+      boundaryGap: [0, 0.01],
+    },
+    yAxis: {
+      type: 'category',
+      axisTick: {
+        show: false,
+      },
+      axisLine: {
+        show: false,
+      },
+      data: ['JavaScript', 'Html', 'Css', 'Vue', 'React', 'Node'],
+    },
+    series: [
+      {
+        name: '2011',
+        type: 'bar',
+        label: {
+          show: true,
+        },
+        libelLine: {
+          show: true,
+        },
+        colorBy: 'data',
+        itemStyle: {
+          borderColor: '#fff',
+          borderWidth: 2,
+          borderRadius: 5,
+        },
+        data: [75, 70, 70, 75, 50, 55],
+      },
+    ],
+  };
+  rightOneEchartsOptions && rightOneEcharts.setOption(rightOneEchartsOptions);
+
+  // right-two
+  const rightTwoEcharts = echarts.init(rightTwo.value);
+  const rightTwoEchartsOptions = {
+    color: ['#80FFA5', '#00DDFF'],
+    title: {
+      text: '折线图-播放量',
+      textStyle: {
+        color: '#fff',
+        fontSize: 14,
+      },
+      top: 10,
+      left: 10,
+    },
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'cross',
+        label: {
+          backgroundColor: '#6a7985',
+        },
+      },
+    },
+    legend: {
+      data: ['播放量', '转发量'],
+      top: '10',
+      right: '10',
+      textStyle: {
+        color: '#fff',
+        fontSize: '14',
+      },
+    },
+    toolbox: {
+      feature: {
+        saveAsImage: {},
+      },
+    },
+    grid: {
+      top: '20%',
+      left: '13%',
+      bottom: '15%',
+    },
+    xAxis: [
+      {
+        type: 'category',
+        boundaryGap: false,
+        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      },
+    ],
+    yAxis: [
+      {
+        type: 'value',
+      },
+    ],
+    series: [
+      {
+        name: '播放量',
+        type: 'line',
+        stack: 'Total',
+        smooth: true,
+        lineStyle: {
+          width: 0,
+        },
+        showSymbol: false,
+        areaStyle: {
+          opacity: 0.8,
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: 'rgb(128, 255, 165)',
+            },
+            {
+              offset: 1,
+              color: 'rgb(1, 191, 236)',
+            },
+          ]),
+        },
+        emphasis: {
+          focus: 'series',
+        },
+        data: [140, 232, 101, 264, 90, 340, 250],
+      },
+      {
+        name: '转发量',
+        type: 'line',
+        stack: 'Total',
+        smooth: true,
+        lineStyle: {
+          width: 0,
+        },
+        showSymbol: false,
+        areaStyle: {
+          opacity: 0.8,
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: 'rgb(0, 221, 255)',
+            },
+            {
+              offset: 1,
+              color: 'rgb(77, 119, 255)',
+            },
+          ]),
+        },
+        emphasis: {
+          focus: 'series',
+        },
+        data: [120, 282, 111, 234, 220, 340, 310],
+      },
+    ],
+  };
+  rightTwoEchartsOptions && rightTwoEcharts.setOption(rightTwoEchartsOptions);
   window.addEventListener('resize', () => {
     leftOneEcharts.resize();
     leftTwoEcharts.resize();
+    leftThereEcharts.resize();
+    rightOneEcharts.resize();
+    rightTwoEcharts.resize();
   });
 });
 </script>
